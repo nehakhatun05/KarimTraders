@@ -8,6 +8,7 @@ import CategoryPills from '@/components/home/CategoryPills';
 import PromoBannerStrip from '@/components/home/PromoBannerStrip';
 import TrustBadges from '@/components/home/TrustBadges';
 import prisma from '@/lib/prisma';
+import { Product } from '@/types';
 
 // Fetch products from database
 async function getFeaturedProducts() {
@@ -74,23 +75,47 @@ async function getNewArrivals() {
 }
 
 // Format product for ProductSection component
-function formatProduct(product: any) {
+function formatProduct(product: any): Product {
   return {
     id: product.id,
     name: product.name,
     slug: product.slug,
+    description: product.description || '',
+    shortDescription: product.shortDescription || '',
+    category: {
+      id: product.category?.id || '',
+      name: product.category?.name || 'Uncategorized',
+      slug: product.category?.slug || '',
+      description: product.category?.description || '',
+      image: product.category?.image || '',
+      icon: product.category?.icon || '',
+      productCount: product.category?.productCount || 0,
+      subcategories: product.category?.subcategories || [],
+    },
+    subcategory: product.subcategory || '',
     price: Number(product.price),
-    originalPrice: product.originalPrice ? Number(product.originalPrice) : undefined,
+    originalPrice: product.originalPrice ? Number(product.originalPrice) : 0,
     discount: product.discount || 0,
-    image: product.images?.[0]?.url || '/images/placeholder-product.png',
-    category: product.category?.name || 'Uncategorized',
     unit: product.unit || '1 kg',
+    minQuantity: product.minQuantity || 1,
+    maxQuantity: product.maxQuantity || 10,
+    stockStatus: product.stockStatus === 'OUT_OF_STOCK' ? 'out-of-stock' : product.stockStatus === 'LIMITED' ? 'limited' : 'in-stock',
+    stockCount: product.stockCount || 0,
+    images: product.images?.map((img: any) => img.url) || ['/images/placeholder-product.png'],
     rating: product.rating || 0,
     reviewCount: product.reviewCount || 0,
     isOrganic: product.isOrganic || false,
+    isFeatured: product.isFeatured || false,
+    isNewArrival: product.isNew || false,
     isBestSeller: product.isBestSeller || false,
-    isNew: product.isNew || false,
-    stock: product.stockStatus === 'OUT_OF_STOCK' ? 0 : product.stockCount,
+    brand: product.brand || '',
+    origin: product.origin || '',
+    nutritionalInfo: product.nutritionalInfo,
+    storageInstructions: product.storageInstructions,
+    shelfLife: product.shelfLife,
+    tags: product.tags || [],
+    createdAt: product.createdAt?.toISOString() || new Date().toISOString(),
+    updatedAt: product.updatedAt?.toISOString() || new Date().toISOString(),
   };
 }
 
