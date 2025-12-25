@@ -1,4 +1,4 @@
-// File: C:\Users\basan\Desktop\karim123\KarimTraders\src\app\api\webhooks\stripe\route.ts
+// File: c:\Users\basan\Desktop\karim123\KarimTraders\src\app\api\webhooks\stripe\route.ts
 import * as entry from '../../../../../../src/app/api/webhooks/stripe/route.js'
 import type { NextRequest } from 'next/server.js'
 

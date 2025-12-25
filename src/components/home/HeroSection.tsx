@@ -55,7 +55,7 @@ export default function HeroSection() {
       <div className="container-custom">
         {/* Main Hero Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-4">
-          {/* Main Slider - Takes 3 columns on large screens */}
+          {/* Main Slider - Takes full width on mobile, 3 columns on large screens */}
           <div className="lg:col-span-3 relative rounded-2xl overflow-hidden shadow-lg">
             <div className="relative h-[200px] sm:h-[280px] md:h-[350px] lg:h-[400px]">
               {banners.map((banner, index) => (
@@ -73,34 +73,34 @@ export default function HeroSection() {
                       alt={banner.title}
                       fill
                       priority={index === 0}
-                      sizes="(max-width: 1024px) 100vw, 75vw"
-                      className="object-cover"
+                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 100vw, 75vw"
+                      className="object-cover object-center"
                     />
                     {/* Gradient Overlay */}
-                    <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/30 to-transparent" />
+                    <div className="absolute inset-0 bg-gradient-to-r from-black/60 sm:from-black/70 via-black/20 sm:via-black/30 to-transparent" />
                     
                     {/* Content */}
-                    <div className="absolute inset-0 flex items-center p-6 md:p-10">
-                      <div className="max-w-lg">
+                    <div className="absolute inset-0 flex items-center p-4 sm:p-6 md:p-10">
+                      <div className="max-w-lg w-full">
                         {/* Badge */}
-                        <span className="inline-block px-3 py-1 bg-yellow-400 text-yellow-900 text-xs font-bold rounded-full mb-4 animate-pulse">
+                        <span className="inline-block px-2 py-1 sm:px-3 sm:py-1 bg-yellow-400 text-yellow-900 text-xs font-bold rounded-full mb-2 sm:mb-4 animate-pulse">
                           🔥 HOT DEAL
                         </span>
-                        <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-display font-bold text-white mb-3 leading-tight">
+                        <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-display font-bold text-white mb-2 sm:mb-3 leading-tight drop-shadow-lg">
                           {banner.title}
                         </h2>
                         {banner.subtitle && (
-                          <p className="text-base sm:text-lg md:text-xl text-white/90 mb-6 line-clamp-2">
+                          <p className="text-sm sm:text-base md:text-lg lg:text-xl text-white/95 mb-4 sm:mb-6 line-clamp-2 drop-shadow-md">
                             {banner.subtitle}
                           </p>
                         )}
                         {banner.buttonText && (
                           <Link
                             href={banner.link}
-                            className="inline-flex items-center gap-2 bg-white hover:bg-gray-100 text-gray-900 font-bold py-3 px-6 rounded-xl transition-all duration-200 shadow-lg hover:shadow-xl hover:scale-105"
+                            className="inline-flex items-center gap-2 bg-white hover:bg-gray-100 text-gray-900 font-bold py-2 px-4 sm:py-3 sm:px-6 rounded-xl transition-all duration-200 shadow-lg hover:shadow-xl hover:scale-105 text-sm sm:text-base"
                           >
                             {banner.buttonText}
-                            <ChevronRight size={18} />
+                            <ChevronRight size={16} className="sm:w-[18px] sm:h-[18px]" />
                           </Link>
                         )}
                       </div>
@@ -112,26 +112,26 @@ export default function HeroSection() {
               {/* Navigation Arrows */}
               <button
                 onClick={prevSlide}
-                className="absolute left-3 top-1/2 -translate-y-1/2 z-20 w-10 h-10 bg-white/90 hover:bg-white rounded-full flex items-center justify-center shadow-lg transition-all hover:scale-110"
+                className="absolute left-2 sm:left-3 top-1/2 -translate-y-1/2 z-20 w-8 h-8 sm:w-10 sm:h-10 bg-white/90 hover:bg-white rounded-full flex items-center justify-center shadow-lg transition-all hover:scale-110 touch-manipulation"
               >
-                <ChevronLeft size={20} />
+                <ChevronLeft size={16} className="sm:w-[20px] sm:h-[20px]" />
               </button>
               <button
                 onClick={nextSlide}
-                className="absolute right-3 top-1/2 -translate-y-1/2 z-20 w-10 h-10 bg-white/90 hover:bg-white rounded-full flex items-center justify-center shadow-lg transition-all hover:scale-110"
+                className="absolute right-2 sm:right-3 top-1/2 -translate-y-1/2 z-20 w-8 h-8 sm:w-10 sm:h-10 bg-white/90 hover:bg-white rounded-full flex items-center justify-center shadow-lg transition-all hover:scale-110 touch-manipulation"
               >
-                <ChevronRight size={20} />
+                <ChevronRight size={16} className="sm:w-[20px] sm:h-[20px]" />
               </button>
 
               {/* Progress Dots */}
-              <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-20 flex gap-2">
+              <div className="absolute bottom-3 sm:bottom-4 left-1/2 -translate-x-1/2 z-20 flex gap-2">
                 {banners.map((_, index) => (
                   <button
                     key={index}
                     onClick={() => setCurrentSlide(index)}
-                    className={`h-2 rounded-full transition-all duration-300 ${
-                      index === currentSlide 
-                        ? 'bg-white w-8' 
+                    className={`h-2 rounded-full transition-all duration-300 touch-manipulation ${
+                      index === currentSlide
+                        ? 'bg-white w-6 sm:w-8'
                         : 'bg-white/50 hover:bg-white/75 w-2'
                     }`}
                   />

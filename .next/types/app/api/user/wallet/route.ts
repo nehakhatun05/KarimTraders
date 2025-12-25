@@ -1,4 +1,4 @@
-// File: C:\Users\basan\Desktop\karim123\KarimTraders\src\app\api\user\wallet\route.ts
+// File: c:\Users\basan\Desktop\karim123\KarimTraders\src\app\api\user\wallet\route.ts
 import * as entry from '../../../../../../src/app/api/user/wallet/route.js'
 import type { NextRequest } from 'next/server.js'
 

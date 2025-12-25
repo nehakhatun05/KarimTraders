@@ -1,4 +1,4 @@
-// File: C:\Users\basan\Desktop\karim123\KarimTraders\src\app\api\auth\reset-password\route.ts
+// File: c:\Users\basan\Desktop\karim123\KarimTraders\src\app\api\auth\reset-password\route.ts
 import * as entry from '../../../../../../src/app/api/auth/reset-password/route.js'
 import type { NextRequest } from 'next/server.js'
 
