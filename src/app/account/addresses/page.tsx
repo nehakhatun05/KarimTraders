@@ -170,7 +170,7 @@ export default function AddressesPage() {
         const address = data.address;
         
         // Build address line from available data
-        const addressParts = [];
+        const addressParts: string[] = [];
         if (address.house_number) addressParts.push(address.house_number);
         if (address.road) addressParts.push(address.road);
         
