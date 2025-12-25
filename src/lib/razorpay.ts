@@ -1,10 +1,24 @@
 import Razorpay from 'razorpay';
 
-// Initialize Razorpay instance
-export const razorpay = new Razorpay({
-  key_id: process.env.RAZORPAY_KEY_ID!,
-  key_secret: process.env.RAZORPAY_KEY_SECRET!,
-});
+// Initialize Razorpay instance lazily
+let razorpayInstance: Razorpay | null = null;
+
+function getRazorpayInstance(): Razorpay {
+  if (!razorpayInstance) {
+    const keyId = process.env.RAZORPAY_KEY_ID;
+    const keySecret = process.env.RAZORPAY_KEY_SECRET;
+
+    if (!keyId || !keySecret) {
+      throw new Error('Razorpay environment variables not configured');
+    }
+
+    razorpayInstance = new Razorpay({
+      key_id: keyId,
+      key_secret: keySecret,
+    });
+  }
+  return razorpayInstance;
+}
 
 // Create Razorpay order
 export async function createRazorpayOrder(amount: number, orderId: string) {
@@ -18,6 +32,7 @@ export async function createRazorpayOrder(amount: number, orderId: string) {
   };
 
   try {
+    const razorpay = getRazorpayInstance();
     const order = await razorpay.orders.create(options);
     return order;
   } catch (error) {
@@ -34,9 +49,14 @@ export function verifyRazorpaySignature(
   razorpayPaymentId: string,
   razorpaySignature: string
 ): boolean {
+  const keySecret = process.env.RAZORPAY_KEY_SECRET;
+  if (!keySecret) {
+    throw new Error('Razorpay key secret not configured');
+  }
+
   const body = razorpayOrderId + '|' + razorpayPaymentId;
   const expectedSignature = crypto
-    .createHmac('sha256', process.env.RAZORPAY_KEY_SECRET!)
+    .createHmac('sha256', keySecret)
     .update(body.toString())
     .digest('hex');
 
@@ -46,6 +66,7 @@ export function verifyRazorpaySignature(
 // Get payment details
 export async function getPaymentDetails(paymentId: string) {
   try {
+    const razorpay = getRazorpayInstance();
     const payment = await razorpay.payments.fetch(paymentId);
     return payment;
   } catch (error) {
@@ -57,6 +78,7 @@ export async function getPaymentDetails(paymentId: string) {
 // Refund payment
 export async function refundPayment(paymentId: string, amount?: number) {
   try {
+    const razorpay = getRazorpayInstance();
     const refund = await razorpay.payments.refund(paymentId, {
       amount: amount ? Math.round(amount * 100) : undefined,
     });
